@@ -1,0 +1,104 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    color: #424447;	
+}
+
+#container {
+	display: flex;
+	flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+nav {
+	display: flex;
+	width: 50%;
+	flex-direction: row;
+	align-self: center;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+nav > a {
+	font-size: 2em;
+	font-weight: bold;
+	text-decoration: none;
+	color: #424447;
+}
+
+nav > a:hover {
+	text-decoration: underline;
+	color: black;
+}
+
+nav > div {
+	display: flex;
+	align-self: flex-end;
+	align-items: center;
+	flex-flow: center;
+	justify-content: space-between;
+}
+
+nav > div > a {
+	padding-left: 40px;
+	padding-right: 40px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-size: 1.4em;
+	color: #424447;
+}
+
+nav > div > a:hover {
+	text-decoration: underline;
+	color: black;
+}
+
+#content {
+    width: 50%;
+    height: 80%;
+    padding: 20px;
+    box-shadow: 0px 0px 5px black;
+    background-color: white;
+}
+
+.post {
+	display: flex;
+	flex-direction: row;
+	align-self: center;
+	align-items: center;
+	justify-content: space-between;
+	border-bottom: 1px solid #c8cace;
+	font-weight: bold;
+	text-decoration: none;
+	color: #0061b4;
+}
+
+.post h1 {
+	font-size: 1.8em;
+}
+
+.post p {
+	color: #6d6d6d;
+}
+
+.post:hover h1 {
+	
+	color: black;
+}
+
+footer {
+	margin-top: 30px;
+	width: 100%;
+	height: 20%;
+	border-top: 1px solid grey;
+}

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<header>
+	<title> Privilege Escalation </title>
+	<link rel="stylesheet" href="../css/primary.css">
+	<link rel="stylesheet" href="../css/post.css">
+</header>
+<body>
+<div id="container">
+	<nav>
+		<a href="../index.html"> Tom Richardson </a>
+		<div>
+			<a href="../projects.html">Projects</a>
+			<a href="../archive.html">Archive</a>
+		</div>
+	</nav>
+
+	<div id="content">
+		<h1> Project: Privilege Escalation by Executable Hijacking </h1>
+		<p>
+			<strong> Goal: </strong> Infect arbitrary executables(PEs) to have them run our code. Ideally with escalated privilege and minimized footprint.
+		</p>
+		<p>
+			<strong> Tools: </strong> Python 3.6, gcc, <a href="http://x64dbg.com/#start">x64dbg</a>, <a href="http://www.ntcore.com/exsuite.php">CFF Explorer</a>, <a href="https://google.com/">Google</a>
+		</p>
+		<p>
+			<strong> Required Knowledge: </strong> Basic programming skills, how hex works (also endianness). Operating System, C and/or assembly knowledge are also helpful.
+		</p>
+
+		<h2> Plan </h2>
+		<p>
+			Our plan here is simple, we infect our chosen PE file with some code that opens another executable (as an entirely independent separate process). Once our executable is running, the original program should resume normal behavior. The ideal target is a program that is run with administrator privileges.
+		</p>
+
+		<h2 id="research"> Research </h2>
+		<div class="image">
+			<a href="https://en.wikipedia.org/wiki/File:Portable_Executable_32_bit_Structure_in_SVG_fixed.svg">
+				<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Portable_Executable_32_bit_Structure_in_SVG_fixed.svg/724px-Portable_Executable_32_bit_Structure_in_SVG_fixed.svg.png" height="400px" alt="img detailing format of PE file"> 
+			</a>
+			<figcaption>Figure 1 - PE File Format</figcaption>
+		</div>
+		<p>
+			First we need to gain a solid understanding of the <a href="https://en.wikipedia.org/wiki/Portable_Executable">PE format</a>. The PE format is a common executable format used in modern Windows operating systems, which means this project is windows specific (Linux, macOS and others have their own formats). Anytime you run a .exe file on windows you're using the PE format. Another important thing to note is that this format is also used for DLLs (this means our attack could also be used on arbitrary DLLs).
+		</p>
+		<p>
+			A couple things to note now is that by convention(?) PE file format usually have a .text section, where code goes. This section is usually read/execute only. And a .rdata section, where read only data goes. So we need to put our code in the .text section and any constants (e.g. file names) in the .rdata section.
+		</p>
+		<p>
+			When looking at the format it looks fairly complex, but really we only need to know about a few things:
+		</p>
+		<table border="1">
+			<tr>
+				<th>
+					Description
+				</th>
+				<th>
+					Offset
+				</th>
+			</tr>
+			<tr>
+				<td>
+					Offset to PE header
+				</td>
+				<td>
+					0x3C
+				</td>
+			</tr>
+			<tr>
+				<td>
+					AddressOfEntryPoint - Where our program starts executing code from.
+				</td>
+				<td>
+					0x0028 (RVA)
+				</td>
+			</tr>
+			<tr>
+				<td>
+					BaseOfData
+				</td>
+				<td>
+					0x002B (RVA)
+				</td>
+			</tr>
+			<tr>
+				<td>
+					BaseOfCode
+				</td>
+				<td>
+					0x0030 (RVA)
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Sections (Most of it)
+				</td>
+				<td>
+					Varies
+				</td>
+			</tr>
+		</table>
+		Note: RVA = Relative Virtual Address
+
+		<p>
+			There's a few more things we'll need to come back to but for now that's all we need to know to get a dirty (mostly manual) solution going. For a more refined solution there's already a couple issues with our plans.
+		</p> 
+		<ul>
+			<li>Where do we inject our code into the PE?</li>
+			<li>Where do we inject our data into the PE (e.g. file names)?</li>
+			<li>What's this weird RVA thing?</li>
+			<li>What sections do we need to know about and how do we get information on them?</li>
+		</ul>
+		<p>
+			We'll gain some insight into these questions as we work through a manual solution.
+		</p>
+
+	<h2 id="prototype"> Prototype </h2>
+	<h2 id="solution"> Solution </h2>
+	<h2 id="final"> Final Thoughts </h2>
+	</div>
+	<footer>
+		<div>
+			<div class="footer-title">
+				<h3> Tom Richardson </h3>
+				<p> University of Queensland Information Technology/Mathematics Student </p>
+			</div>
+			<a class="github" href="https://github.com/tgrkzus/"><img src="../img/github.png" alt="Github logo"> Github </a>
+			<br>
+			<a class="email" href="mailto:tom@tomgr.io"><img src="../img/email.png" alt="Email icon"> tom@tomgr.io</a>
+		</div>
+	</footer>
+</div>
+</body>
+</html>

@@ -43,7 +43,7 @@
 			First we need to gain a solid understanding of the <a href="https://en.wikipedia.org/wiki/Portable_Executable">PE format</a>. The PE format is a common executable format used in modern Windows operating systems, which means this project is windows specific (Linux, macOS and others have their own formats). Anytime you run a .exe file on windows you're using the PE format. Another important thing to note is that this format is also used for DLLs (this means our attack could also be used on arbitrary DLLs).
 		</p>
 		<p>
-			A couple things to note now is that by convention(?) PE file format usually have a .text section, where code goes. This section is usually read/execute only. And a .rdata section, where read only data goes. So we need to put our code in the .text section and any constants (e.g. file names) in the .rdata section.
+			Another thing to know is that by convention(?) PE file format usually have a .text section, where code goes. This section is usually read/execute only. And a .rdata section, where read only data goes. So we need to put our code in the .text section and any constants (e.g. file names) in the .rdata section. We will be targeting these two sections for our injected code.
 		</p>
 		<p>
 			When looking at the format it looks fairly complex, but really we only need to know about a few things:
@@ -114,6 +114,25 @@
 		</p>
 
 	<h2 id="prototype"> Prototype </h2>
+	<p>
+		For our prototype we're going to use our tools for the first time. x64dbg as a hex/asm editor and CFF explorer to modify our entry point and adjust our section sizes.
+	</p>
+
+	<p>
+		For this I created a simple C program that simple prints some text and then waits for user input before exiting. By using x64dbg we can have a look at the exact entry point of the executable.
+	</p>
+		<div class="image">
+			<img src="img/entry_found.png" width="400px" alt="img showing breakpoint tab with entry point breakpoint">
+			<figcaption>Figure 2 - Entry point</figcaption>
+		</div>
+	<p>
+		We can see this entry point lines up with the entry point that CFF explorer tells us (plus the imagebase offset)."
+	</p>
+		<div class="image">
+			<img src="img/cff_entry.png" width="400px" alt="img showing entry point in CFF explorer">
+			<figcaption>Figure 3 - CFF Entry point</figcaption>
+		</div>
+
 	<h2 id="solution"> Solution </h2>
 	<h2 id="final"> Final Thoughts </h2>
 	</div>

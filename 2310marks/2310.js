@@ -25,5 +25,5 @@ function update() {
     mark = Math.sqrt(assignmentMark * examMark);
     document.getElementById("assignments").innerHTML = (assignmentMark * 100 + "%");
     document.getElementById("exams").innerHTML = (examMark * 100 + "%");
-    document.getElementById("final").innerHTML = (mark * 100 + "%");
+    document.getElementById("mark").innerHTML = (mark * 100 + "%");
 }
